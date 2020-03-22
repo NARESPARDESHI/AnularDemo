@@ -1,0 +1,179 @@
+
+<!-- 
+<p-table [columns]="cols" [value]="cars" dataKey="vin" expandableRows="false" rowExpandMode="single">
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+          <th style="width: 3em"></th>
+          <th *ngFor="let col of columns">
+              {{col.header}}
+          </th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+      <tr>
+          <td>
+              <a href="#" [pRowToggler]="rowData">
+                  <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+              </a>
+          </td>
+          <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+          </td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+      <tr>
+          <td [attr.colspan]="columns.length + 1">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                 
+                  <div class="ui-g-12 ui-md-9">
+                      <div class="ui-g">
+                          <div class="ui-g-12">
+                              <b>Vin:</b> &nbsp;&nbsp; 
+                              <input pInputText type="text" [(ngModel)]="rowData.vin" >
+                            
+                          </div>
+                          <div class="ui-g-12">
+                              <b>Year:</b>  &nbsp;&nbsp; 
+                              <input pInputText type="text" [(ngModel)]="rowData.year" >
+                            
+                          </div>
+                          <div class="ui-g-12">
+                              <b>Brand:</b>  &nbsp;&nbsp; 
+                             
+                              <input pInputText type="text" [(ngModel)]="rowData.brand" >
+                          </div>
+                          <div class="ui-g-12">
+                              <b>Color:</b>  &nbsp;&nbsp; 
+                             
+                              <input pInputText type="text" [(ngModel)]="rowData.color" >
+                          </div>
+                          <div class="ui-g-12">
+                            <p-button label="Update" (click)="onRowEditSave(rowData)"></p-button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </td>
+      </tr>
+  </ng-template>
+</p-table> -->
+<div style="border:1px solid;padding: 25px;">
+<table>
+    <tr>
+            <td>
+                    <b>VIN </b>:
+            </td>
+           
+            <td>
+                    <b>YEAR</b>:
+            </td>
+            <td>
+                    <b>BRAND</b>:
+            </td>
+            <td>
+                    <b>COLOR</b>:
+            </td>
+   </tr>
+    <tr >
+        <td>
+            <input pInputText type="text" [(ngModel)]="car.vin" >
+        </td>
+        <td>
+         <input pInputText type="text" [(ngModel)]="car.year" >
+        </td>
+        <td>
+         <!-- <p-dropdown [options]="brands" [(ngModel)]="car.brand"  ></p-dropdown> -->
+         <select matNativeControl [(ngModel)]="car.brand">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+        </td>
+        <td>
+        <input pInputText type="text" [(ngModel)]="car.color" >
+        </td>
+        <td style="text-align:center">
+                <p-button label="Add" (click)="save()"></p-button>
+        </td>
+    </tr>
+</table>
+</div><br/><br/>
+<p-table [columns]="cols" [value]="cars" dataKey="vin" 
+
+    (onRowExpand)="onRowExpand()" (onRowCollapse)="onRowCollapse()" 
+    [expandedRowKeys]="expandedRows">
+  <ng-template pTemplate="header" let-columns >
+      <tr>
+          <th style="width: 3em">
+            <a style="cursor: pointer;font-size: 16px; color:teal;" (click)="expandAll()"><i
+              *ngIf="!isExpanded" class="fa fa-plus-circle" aria-hidden="true"></i>
+          <i *ngIf="isExpanded" class="fa fa-minus-circle" aria-hidden="true"></i></a>
+          </th>
+          <th *ngFor="let col of columns">
+              {{col.header}}
+          </th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+          <th style="width: 3em">
+            <a style="cursor: pointer;font-size: 16px; color:teal;" (click)="expandAll()"><i
+              *ngIf="!isExpanded" class="fa fa-plus-circle" aria-hidden="true"></i>
+          <i *ngIf="isExpanded" class="fa fa-minus-circle" aria-hidden="true"></i></a>
+          </th>
+          <th *ngFor="let col of columns">
+              {{col.header}}
+          </th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+      <tr>
+          <td>
+              <a href="#" [pRowToggler]="rowData">
+                  <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+              </a>
+          </td>
+          <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <!-- <div *ngSwitchCase="'color'"><nga-read-more [text]="rowData[col.field]" [textLength]="20"></nga-read-more></div> -->
+                <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          </td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+      <tr>
+          <td [attr.colspan]="columns.length + 1">
+              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                  <div class="ui-g-12 ui-md-12">
+                      <div class="ui-g">
+                        <div class="ui-g-12">
+                            <b>Vin:</b> &nbsp;&nbsp; 
+                            <input pInputText type="text" [(ngModel)]="rowData.vin" >
+                            <!-- {{rowData.vin}} -->
+                        </div>
+                        <div class="ui-g-12">
+                            <b>Year:</b>  &nbsp;&nbsp; 
+                            <input pInputText type="text" [(ngModel)]="rowData.year" >
+                            <!-- {{rowData.year}} -->
+                        </div>
+                        <div class="ui-g-12">
+                            <b>Brand:</b>  &nbsp;&nbsp; 
+                            <!-- {{rowData.brand}} -->
+                            <input pInputText type="text" [(ngModel)]="rowData.brand" >
+                        </div>
+                        <div class="ui-g-12">
+                            <b>Color:</b>  &nbsp;&nbsp; 
+                            <!-- {{rowData.color}}  -->
+                            <input pInputText type="text" [(ngModel)]="rowData.color" >
+                        </div>
+                        <div class="ui-g-12">
+                          <p-button label="Update" (click)="onRowEditSave(rowData)"></p-button>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </td>
+      </tr>
+  </ng-template>
+</p-table>
